@@ -1,7 +1,7 @@
 [alias]
 
 	# View abbreviated SHA, description, and history graph of the latest 20 commits
-	l = log --pretty=oneline -n 20 --graph --abbrev-commit
+	l = log --oneline -n 20 --graph
 
 	# View the current working tree status using the short format
 	s = status -s
@@ -21,6 +21,21 @@
 	# Commit all changes
 	ca = !git add -A && git commit -av
 
+	# Commit all changes with a commit message
+	cam = !git add -A && git commit -a -m $1
+
+	# Commit staged changes with a commit message
+	cm = commit -m
+
+	# Unstage any staged changes
+	unstage = reset HEAD --
+
+	# Print the log for the most recent commit
+	last = log -1 HEAD
+
+	# View the abbreviated SHA and description
+	ol = log --oneline
+
 	# Switch to a branch, creating it if necessary
 	go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
 
@@ -33,7 +48,7 @@
 	aliases = config --get-regexp alias
 
 	# Amend the currently staged files to the latest commit
-	amend = commit --amend --reuse-message=HEAD
+	amend = commit --amend --no-edit
 
 	# Credit an author on the latest commit
 	credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
@@ -163,6 +178,12 @@
 	default = simple
 	# Make `git push` push relevant annotated tags when pushing branches out.
 	followTags = true
+
+[pull]
+
+	# Use rebase when pulling and preserve merges
+	rebase = preserve
+
 
 # URL shorthands
 
